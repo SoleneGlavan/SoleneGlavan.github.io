@@ -376,7 +376,7 @@ input, select, textarea {
 		}
 
 		.row > .col-6 {
-			width: 50%;
+			width: 115%;
 		}
 
 		.row > .off-6 {
@@ -2567,9 +2567,9 @@ input, select, textarea {
 		}
 
 		.work-item p {
-			font-size: 0.8em;
+			font-size: 1em;
 			line-height: 1.5em;
-			margin: 0;
+			margin: 0.5em;
 		}
 
 /* Header */
@@ -3158,6 +3158,7 @@ input, select, textarea {
 
 			#header {
 				padding: 2.25em 1.5em;
+				
 			}
 
 				#header h1 {
