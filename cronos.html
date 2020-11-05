@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<!--
+	Strata by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Strata by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <link rel="stylesheet" href="assets/css/main.css" />
+
+	</head>
+	<body class="is-preload">
+
+	<!-- Header -->
+    <header id="header">
+        <div class="inner">
+            
+            <h1><strong>Solène GLAVAN</strong></h1>
+            <h2><strong>solene.glavan@universite-paris-saclay.fr</strong></h2>
+    
+        </div>
+    </header>
+
+		<!-- Main -->
+			<div id="main">
+
+				<!-- One -->
+					<section id="one">
+						<header class="major">
+							<h1>Cronos (HackTheBox)</h1>
+						</header>
+						<p>Ce capture the flag met en évidence une injection SQL et l'exploitation du serveur DNS</p>
+					
+					</section>    
+				
+					<p></p>
+
+                <!-- Two -->
+					<section id="two">
+						
+						<div class="row">
+
+							<article class="col-6 col-12-xsmall work-item" >
+                                <p>On commence par faire un nmap pour scanner les ports  ouverts et ainsi connaitre les services et leurs versions utilisées </p>
+                                <img src="images/cronos/nmap.PNG"height="450" width="700" >
+
+                                <p>On constate que le port 80 est ouvert. La page qui s'affiche lorsqu'on cherche à accéder au serveur est la page par défaut d'Apache.</p>
+								<img src="images/cronos/site.PNG" height="450" width="700" >
+								<p>Lorsqu'on cherche à accéder à www.cronos.htb le message d'erreur semble indiquer que la page n'existe pas.</p>
+								<img src="images/cronos/site_cronos.PNG" height="500" width="700" >
+
+								<p>A l'aide des commandes suivantes on essaie d'obtenir les noms de domaines associés à l'IP 10.10.10.13</p>
+								<p>La commande dig - permet de faire un transfert de zone et récupérer les données présente sur le serveur DNS de la victime </p>									
+                                <img src="images/cronos/nslookup.PNG" >
+                                <img src="images/cronos/dig_axfr.PNG" >
+								
+								<p>On complete le fichier etc/hosts pour pouvoir avoir accès aux pages admin.cronod.htb et cronos.htb.</p>	
+								<img src="images/cronos/etc_hosts.PNG" width="900">                       
+                                <img src="images/cronos/site_cronos_final.PNG" height="500" width="700">
+                                <img src="images/cronos/site_admin_final.PNG" height="500" width="700">
+
+								<p>A l'aide de burpsuite et de l'outils sqlmap on constate qu'une injection sql est possible dans le username.</p>	
+								<img src="images/cronos/requete_http.PNG" width="900">
+								<img src="images/cronos/sqlmap.PNG" height="700" width="900">
+								<img src="images/cronos/sql_injection.PNG" height="350" width="470">
+
+								<p>La page obtenue nous permet d'envoyer des commandes au serveur en tant que www.data</p>	
+								<img src="images/cronos/ping.PNG" height="350" width="470">
+                                <img src="images/cronos/whoami.PNG" height="350" width="470">
+			
+                                <p>On utilise un reverse shell en python et on obtient un shell en tant que www.data</p>								
+								<img src="images/cronos/burp_python.PNG" >
+								<img src="images/cronos/shell_user.PNG" >
+
+								<p>On utilise linpeas pour élever nos privilèges et devenir root</p>	
+                                <img src="images/cronos/linpeas.PNG"  width="700">
+                                <p>On constate que le fichier artisan est exécuter en temps que root</p>
+                                <img src="images/cronos/linpeas_result.PNG" >
+                              
+
+
+
+							</article>
+							
+						</div>
+						
+					</section>
+
+
+
+			</div>
+
+		<!-- Footer -->
+		<!-- 	<footer id="footer">
+				<div class="inner">
+					<ul class="icons">
+						<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
+						<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+						<li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+					</ul>
+					<ul class="copyright">
+						<li>&copy; Untitled</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+		-->
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.poptrox.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
