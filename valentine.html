@@ -1,0 +1,131 @@
+<!DOCTYPE HTML>
+<!--
+	Strata by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Strata by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <link rel="stylesheet" href="assets/css/main.css" />
+
+	</head>
+	<body class="is-preload">
+
+	<!-- Header -->
+    <header id="header">
+        <div class="inner">
+            
+            <h1><strong>Solène GLAVAN</strong></h1>
+            <h2><strong>solene.glavan@universite-paris-saclay.fr</strong></h2>
+    
+        </div>
+    </header>
+
+		<!-- Main -->
+			<div id="main">
+
+				<!-- One -->
+					<section id="one">
+						<header class="major">
+							<h1>Valentine (HackTheBox)</h1>
+						</header>
+						<p>Ce capture the flag met en évidence la faille Heartbleed.</p>
+					
+					</section>    
+				
+
+
+                <!-- Two -->
+					<section id="two">
+						
+						<div class="row">
+
+							<article class="col-6 col-12-xsmall work-item">
+                                <p>On commence par faire un nmap pour scanner les ports  ouverts et ainsi connaitre les services et leurs versions utilisées </p>
+                                <img src="images/valentine/nmap.PNG"height="450" width="700" >
+                                
+                                <p>On constate que les ports 443 et  80 sont ouverts. La page qui s'afficher lorsqu'on cherche à accéder au serveur via le navigateur est la suivante.</p>
+                                <img src="images/valentine/site.PNG" height="450" width="700" >
+
+                                <p>On essaie par ailleurs d'utiliser dirsearch et dirb pour brute force et trouver des repertoires qui pourraient contenir des informations utiles</p>								
+                                <img src="images/valentine/dirsearch.PNG" height="450" width="700">
+                                <img src="images/valentine/dirb.PNG" height="350" width="470">
+                                
+                                <p>Les repertoires /dev , /encode, et /decode sont accessibles</p>
+								<img src="images/valentine/site_dev.PNG" height="350" width="470">                       
+                                <img src="images/valentine/notes.PNG" height="350" width="470">
+                                <img src="images/valentine/encoder.PNG" height="300" width="470">
+
+                                <p>On convertit la clef obtenue en utilisant un convertiseur hex to ascii et on constate que cette clé est en fait une clé RSA qui pourra surement être utile pour se connecter en SSH (puisque le port 22 est ouvert)</p>
+                                <img src="images/valentine/key_modif.png"height="350" width="470" >
+                                <img src="images/valentine/rsa_key.PNG" height="350" width="470">
+
+                                <p>Par ailleurs on cherche à scanner des vulnérabilités grace à nmap et on constate que la machine est vulnérable à la faille heartbleed</p>                           								
+                                <img src="images/valentine/scan_vuln.PNG" height="20" width="470">
+                                <img src="images/valentine/scan_heartbleed.PNG" width="700">
+
+                                <p>On exécute donc un exploit permettant d'utiliser la faille Heartbleed</p>								
+                                <img src="images/valentine/heartbleed_execution.PNG" height="20" width="470">>
+
+                                <p>On obtient une chaine de caractère qui a été envoyé au serveur par un client à travers /decode</p>
+                                <img src="images/valentine/heartbleed_result.PNG"  width="700">
+                                <p>On décode cette chaine de caractère qui correspond surement à un mot de passe</p>
+                                <img src="images/valentine/heartbleed_result2.PNG" height="30" width="470">
+                                <p>Grace à la clé RSA et au mot de passe obtenu précédent on peut se connecter en SSH et obtenir un shell, il ne reste plus qu'à devenir root </p>
+                                <img src="images/valentine/resultat.PNG"  width="700">								
+                                <img src="images/valentine/user.PNG"  width="700">
+
+                                <p>Pour devenir root on utilise linpeas</p> 
+                                <img src="images/valentine/wget.PNG" height="300" >								
+                                <img src="images/valentine/linpeas.PNG" height="450" width="700">
+
+                                <p>On constate qu'une session tmux appartenant à root n'a pas été fermée.</p>                                
+                                <img src="images/valentine/exploit_tmux.PNG"  width="700">
+
+                                <p>On se connecte à la session tmux en question ce qui nous permet d'obtenir un shell en étant root</p>								
+                                <img src="images/valentine/become_root.PNG"  height="20" width="470">								
+                                <img src="images/valentine/root.PNG" >
+								
+                                
+
+
+
+
+							</article>
+							
+						</div>
+						
+					</section>
+
+
+
+			</div>
+
+		<!-- Footer -->
+		<!-- 	<footer id="footer">
+				<div class="inner">
+					<ul class="icons">
+						<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
+						<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+						<li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+					</ul>
+					<ul class="copyright">
+						<li>&copy; Untitled</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+		-->
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.poptrox.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
