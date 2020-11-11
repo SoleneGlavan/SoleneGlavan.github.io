@@ -32,7 +32,7 @@
 						<header class="major">
 							<h1>Simple BufferOverflow</h1>
 						</header>
-						<p>Ce capture the flag est tiré du github Nightmare</p>
+						<p>Ce capture the flag est tiré du TAMU CTF 2019</p><a href="https://l.facebook.com/l.php?u=https%3A%2F%2Fgithub.com%2Fguyinatuxedo%2Fnightmare%2Fraw%2Fmaster%2Fmodules%2F04-bof_variable%2Ftamu19_pwn1%2Fpwn1%3Ffbclid%3DIwAR3QrlCqwIR2-4Z7VCsXrtn7PI-thQMlDFV6i6VpBL4bk6jPW-p7rPxm0D0&h=AT0FP-pgPfLoTmzy4FUcPua-Ml2jG9BAB22eKLsCHA38PAS7EDbYrw2kbMEt28Oj8Wg_y7fYHomux6QtC3Uq9Kv0ZsaKkJIvRLHB13y9TD9_4eZbixB01NYz1Zg48jE2_iLgJewEmVdeDC2HCC9dNQ">Vous pouvez le retrouver ici</a>
 					
 					</section>    
 				
@@ -54,7 +54,7 @@
 								<p>L'outil Ghidra permet de faire une première analyse du programme et d'avoir une vue sur le code assembleur.</p>
 								<img src="images/simplebufferoverflow/ghidra_1.PNG" height="500" width="700" >
 								<p>On utilise l'option décompilateur pour avoir une idée du code d'origine. La variable local_18 présentée dans le code décompilé semble jouer un rôle majeur dans la résolution du problème.</p>
-								<p>On constate que pour obtenir le flag il faut que la valeur de la variable local_18 soit égale à -0x215eef38. Le décompilateur l'interprète comme une une valeur négative mais en regardant le code assembleur on obtient la valeur brute 0xdea110c8 </p>	
+								<p>On constate que pour obtenir le flag il faut que la valeur de la variable local_18 soit égale à -0x215eef38. Le décompilateur l'interprète commeune une valeur négative mais en regardant le code assembleur on obtient la valeur brute 0xdea110c8 </p>	
                                 <img src="images/simplebufferoverflow/decompile.png" >
                                 <img src="images/simplebufferoverflow/gdb_cmp.PNG" >
 
