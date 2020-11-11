@@ -1,0 +1,122 @@
+<!DOCTYPE HTML>
+<!--
+	Strata by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Strata by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <link rel="stylesheet" href="assets/css/main.css" />
+
+	</head>
+	<body class="is-preload">
+
+	<!-- Header -->
+    <header id="header">
+        <div class="inner">
+            
+            <h1><strong>Solène GLAVAN</strong></h1>
+            <h2><strong>solene.glavan@universite-paris-saclay.fr</strong></h2>
+    
+        </div>
+    </header>
+
+		<!-- Main -->
+			<div id="main">
+
+				<!-- One -->
+					<section id="one">
+						<header class="major">
+							<h1>Simple BufferOverflow</h1>
+						</header>
+						<p>Ce capture the flag est tiré du github Nightmare</p>
+					
+					</section>    
+				
+					<p></p>
+
+                <!-- Two -->
+					<section id="two">
+						
+						<div class="row">
+
+							<article class="col-6 col-12-xsmall work-item" >
+                                <p>On commence par exécuter le binaire à disposition pour avoir une idée de ce qu'il fait.</p>
+                                <img src="images/simplebufferoverflow/test.PNG" width="700" >
+                                <p>On met en évidence la présence d'un buffer overflow. L'erreur de segmentation indique que l'adresse de retour n'est pas éxécutable car on a écrit par dessus.</p>
+                                <img src="images/simplebufferoverflow/preuve_buffer.PNG" width="700" >
+                                <p>La commande checksec permet de déterminer les protections opérant sur le binaire.</p>
+                                <img src="images/simplebufferoverflow/checksec.PNG"  >
+                                
+								<p>L'outil Ghidra permet de faire une première analyse du programme et d'avoir une vue sur le code assembleur.</p>
+								<img src="images/simplebufferoverflow/ghidra_1.PNG" height="500" width="700" >
+								<p>On utilise l'option décompilateur pour avoir une idée du code d'origine. La variable local_18 présentée dans le code décompilé semble jouer un rôle majeur dans la résolution du problème.</p>
+								<p>On constate que pour obtenir le flag il faut que la valeur de la variable local_18 soit égale à -0x215eef38 soit 0xdea110c8 lorsqu'on regarde le code en assembleur.</p>	
+                                <img src="images/simplebufferoverflow/decompile.png" >
+                                <img src="images/simplebufferoverflow/gdb_cmp.PNG" >
+
+                                <p> On obtient ainsi des données nous permettant de répondre correctement aux deux premières questions posées par le programme.</p>
+                                <img src="images/simplebufferoverflow/use_ghidra_infos.PNG" >
+                                
+                                <p>La lecture du code décompilé nous permet de comprendre qu'il va falloir réécrire par dessus la variable local_18 présente dans la pile avec la valeur attendue. </p>
+
+								<p>Pour cela on lance le débugger gdb et on place un premier breakpoint au niveau de la fonction main</p>	
+                                <img src="images/simplebufferoverflow/gdb.PNG" width="800">  
+                                <p>On rajoute un breakpoint juste après la fonction gets. </p>                     
+                                <img src="images/simplebufferoverflow/break2.PNG"width="500" >
+
+
+                                <p>On constate que la valeur de local_18 est stockée dans la pile à l'adresse $ebp-16. </p>	
+                                <img src="images/simplebufferoverflow/disasse.png" width="700">
+
+                                <p>On envoie des "A" pour savoir où et combien de A envoyer pour atteindre l'adresse à recouvrir.  </p>
+                                <img src="images/simplebufferoverflow/gdb_test_buffer.PNG"  width="700">
+                                <p>On se rend ainsi compte qu'on peut ajouter 43 "A" pour atteindre la valeur à modifier.</p>
+                                <img src="images/simplebufferoverflow/bon_exam.PNG"  width="600">
+
+								<p>Ce script python permet de recouvrir la valeur de local_18 dans la pile avec la valeur permettant d'obtenir le flag. </p>	
+                                <img src="images/simplebufferoverflow/script.PNG"  width="500">
+                                <p>On obtient finalement le flag attendu.</p>
+                                <img src="images/simplebufferoverflow/flag.PNG"  width="800" >
+                              
+
+
+
+							</article>
+							
+						</div>
+						
+					</section>
+
+
+
+			</div>
+
+		<!-- Footer -->
+		<!-- 	<footer id="footer">
+				<div class="inner">
+					<ul class="icons">
+						<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
+						<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+						<li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+					</ul>
+					<ul class="copyright">
+						<li>&copy; Untitled</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+		-->
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.poptrox.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
